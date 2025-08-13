@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import AuthForm from './components/AuthForm';
 import Profile from './components/Profile';
 import CVManager from './components/CVManager';
@@ -33,6 +34,7 @@ export default function App() {
         <Routes>
           <Route path="/*" element={<AuthForm onAuth={setUser} />} />
         </Routes>
+        <Footer />
       </Router>
     );
   }
@@ -63,6 +65,7 @@ export default function App() {
         } />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
