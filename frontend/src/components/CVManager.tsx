@@ -12,6 +12,16 @@ const emptyCV = {
   dob: '',
   avatar: '',
   skills: [],
+  summary: '',
+  website: '',
+  education: [{ school: '', degree: '', field: '', startYear: '', endYear: '' }],
+  experience: [{ company: '', position: '', startDate: '', endDate: '', description: '' }],
+  projects: [{ name: '', description: '', link: '' }],
+  certifications: [{ name: '', organization: '', year: '' }],
+  languages: [{ name: '', level: '' }],
+  interests: [''],
+  references: [{ name: '', contact: '', relation: '' }],
+  awards: [{ name: '', year: '', description: '' }],
 };
 
 export default function CVManager({ user, onBack, search }: { user: any, onBack: () => void, search?: string }) {
@@ -27,8 +37,8 @@ export default function CVManager({ user, onBack, search }: { user: any, onBack:
   const [total, setTotal] = useState(0);
 
   const fetchCVs = async () => {
-    setLoading(true);
-    setError('');
+  setLoading(true);
+  setError('');
     try {
       const res = await fetch(`${API_URL}/my?page=${page}&pageSize=${pageSize}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },

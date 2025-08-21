@@ -153,6 +153,94 @@ export default function CVDetailModal({ userId, onClose, hideJobMatchButton }: C
             <div className="mb-2 text-gray-700">Ngày sinh: {cv.dob}</div>
             <div className="mb-2 text-gray-700">Kỹ năng: {cv.skills?.join(', ')}</div>
             <div className="mb-2 text-gray-700">Tóm tắt: {cv.summary}</div>
+            {/* Education */}
+            {cv.education?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Học vấn</div>
+                <ul className="list-disc ml-6">
+                  {cv.education.map((edu: any, i: number) => (
+                    <li key={i}>{edu.degree} - {edu.school} ({edu.startYear} - {edu.endYear}) {edu.field && `- ${edu.field}`}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Experience */}
+            {cv.experience?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Kinh nghiệm</div>
+                <ul className="list-disc ml-6">
+                  {cv.experience.map((exp: any, i: number) => (
+                    <li key={i}>{exp.position} tại {exp.company} ({exp.startDate} - {exp.endDate}): {exp.description}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Projects */}
+            {cv.projects?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Dự án</div>
+                <ul className="list-disc ml-6">
+                  {cv.projects.map((prj: any, i: number) => (
+                    <li key={i}>{prj.name}: {prj.description} {prj.link && (<a href={prj.link} className="text-blue-600 underline ml-2" target="_blank" rel="noopener noreferrer">Link</a>)}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Certifications */}
+            {cv.certifications?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Chứng chỉ</div>
+                <ul className="list-disc ml-6">
+                  {cv.certifications.map((c: any, i: number) => (
+                    <li key={i}>{c.name} - {c.organization} ({c.year})</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Languages */}
+            {cv.languages?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Ngôn ngữ</div>
+                <div className="flex flex-wrap gap-2">
+                  {cv.languages.map((l: any, i: number) => (
+                    <span key={i} className="inline-block bg-pink-100 text-pink-700 px-3 py-1 rounded-full font-semibold text-sm">{l.name} ({l.level})</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {/* Interests */}
+            {cv.interests?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Sở thích</div>
+                <div className="flex flex-wrap gap-2">
+                  {cv.interests.map((s: string, i: number) => (
+                    <span key={i} className="inline-block bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-semibold text-sm">{s}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {/* References */}
+            {cv.references?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Người tham chiếu</div>
+                <ul className="list-disc ml-6">
+                  {cv.references.map((r: any, i: number) => (
+                    <li key={i}>{r.name} - {r.contact} ({r.relation})</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {/* Awards */}
+            {cv.awards?.length > 0 && (
+              <div className="mb-2 text-gray-700 w-full">
+                <div className="font-bold text-blue-700">Giải thưởng</div>
+                <ul className="list-disc ml-6">
+                  {cv.awards.map((a: any, i: number) => (
+                    <li key={i}>{a.name} ({a.year}): {a.description}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div className="flex flex-col gap-2 w-full">
               {/* Hiển thị nút liên hệ ứng viên nếu user hiện tại KHÁC user của CV */}
               {(() => {

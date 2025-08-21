@@ -16,23 +16,21 @@ router.get('/job-match/:cvId', authMiddleware, async (req, res) => {
 
     // Hàm tính điểm so khớp
     function calculateJobMatchingScore(job, cv) {
+      // Kỹ năng
       const jobSkills = job.tags || [];
       const cvSkills = cv.skills || [];
       const skillMatches = jobSkills.filter(skill => cvSkills.includes(skill));
       const skillScore = Math.min(skillMatches.length, 5);
-
+      // Kinh nghiệm (so sánh vị trí gần nhất)
       let experienceScore = 0;
-      if (job.experienceLevel && cv.experience) {
-        if (cv.experience >= job.experienceLevel) experienceScore = 2;
+      if (job.title && Array.isArray(cv.experience) && cv.experience.length > 0) {
+        const latestExp = cv.experience[0];
+        if (latestExp.position && latestExp.position.toLowerCase() === job.title.toLowerCase()) experienceScore = 2;
       }
-
-      let locationScore = 0;
-      if (job.location && cv.location && job.location === cv.location) locationScore = 2;
-
+      // Học vấn (so sánh bằng cấp gần nhất)
       let educationScore = 0;
-      if (!job.education || (cv.education && cv.education === job.education)) educationScore = 1;
-
-      return skillScore + experienceScore + locationScore + educationScore;
+      if (!job.education || (Array.isArray(cv.education) && cv.education.length > 0 && cv.education[0].degree && cv.education[0].degree === job.education)) educationScore = 1;
+      return skillScore + experienceScore + educationScore;
     }
 
     // Tính điểm và lọc
@@ -70,19 +68,16 @@ router.get('/match/:jobId', authMiddleware, authorizeRoles('employer', 'admin'),
       const cvSkills = cv.skills || [];
       const skillMatches = jobSkills.filter(skill => cvSkills.includes(skill));
       const skillScore = Math.min(skillMatches.length, 5);
-
+      // Kinh nghiệm (so sánh vị trí gần nhất)
       let experienceScore = 0;
-      if (job.experienceLevel && cv.experience) {
-        if (cv.experience >= job.experienceLevel) experienceScore = 2;
+      if (job.title && Array.isArray(cv.experience) && cv.experience.length > 0) {
+        const latestExp = cv.experience[0];
+        if (latestExp.position && latestExp.position.toLowerCase() === job.title.toLowerCase()) experienceScore = 2;
       }
-
-      let locationScore = 0;
-      if (job.location && cv.location && job.location === cv.location) locationScore = 2;
-
+      // Học vấn (so sánh bằng cấp gần nhất)
       let educationScore = 0;
-      if (!job.education || (cv.education && cv.education === job.education)) educationScore = 1;
-
-      return skillScore + experienceScore + locationScore + educationScore;
+      if (!job.education || (Array.isArray(cv.education) && cv.education.length > 0 && cv.education[0].degree && cv.education[0].degree === job.education)) educationScore = 1;
+      return skillScore + experienceScore + educationScore;
     }
 
     // Tính điểm và lọc
